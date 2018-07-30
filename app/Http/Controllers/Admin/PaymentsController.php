@@ -119,9 +119,9 @@ class PaymentsController extends Controller
     public function del($id){
 
         if(Payments::where('id','=',$id)->delete()){
-            return response()->json(['success' => true]);
+            return response()->json(['success' => true,'msg'=>'删除成功']);
         }else{
-            return response()->json(['success' => false]);
+            return response()->json(['success' => false,'msg'=>'删除失败！']);
         }
     }
 }

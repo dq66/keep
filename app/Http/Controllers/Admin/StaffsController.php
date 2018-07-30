@@ -65,8 +65,18 @@ class StaffsController extends Controller
 
         $st = Staffs::where('id','=',$id)->delete();
         if($st){
-            return response()->json(['success'=>true]);
+            return response()->json(['success'=>true,'msg'=>'删除成功']);
         }else{
-            return response()->json(['success'=>false]);
+            return response()->json(['success'=>false,'msg'=>'删除失败！']);
         }
-    }}
+    }
+    //批量删除
+    public function delall(Request $request){
+        $st = \DB::delete('delete from staffs where id in ('.$request->get('ids').')');
+        if($st){
+            return response()->json(['success'=>true,'msg'=>'批量删除成功']);
+        }else{
+            return response()->json(['success'=>false,'msg'=>'批量删除失败！']);
+        }
+    }
+}

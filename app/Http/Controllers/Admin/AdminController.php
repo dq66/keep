@@ -40,11 +40,13 @@ class AdminController extends Controller
         //以下两条获取服务器时间，中国大陆采用的是东八区的时间,设置时区写成Etc/GMT-8
         date_default_timezone_set("Etc/GMT-8");
         $systemtime = date("Y-m-d H:i:s",time());
+        $laravel = app();
         $mysql = \DB::select("select VERSION() my");
         $basic = array(
             'system' => PHP_OS,//php_uname(),//当前服务器系统
-            'ip' => gethostbyname($_SERVER['SERVER_NAME']),//ip
+            'port' => $_SERVER['SERVER_PORT'],//端口
             'ym' => $_SERVER['SERVER_NAME'],//域名
+            'edition' => $laravel::VERSION,//laravel版本
             'banben' => phpversion(),//php版本
             'mysql' => $mysql[0]->my,//mysql版本
             'systemtime' => $systemtime,//当前时间

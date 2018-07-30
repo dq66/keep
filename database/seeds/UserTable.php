@@ -12,9 +12,9 @@ class UserTable extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name' => "teeoo",
-            'email' => "1982890538@qq.com",
-//            'avatar' => "http://q1.qlogo.cn/g?b=qq&nk=1982890538&s=100",
+            'name' => "DQ",
+            'realname' =>"杜琴",
+            'email' => "2365160465@qq.com",
             'password' => bcrypt('123456'),
         ]);
     }

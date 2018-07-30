@@ -61,9 +61,18 @@ class ProjectsController extends Controller
     public function del($id){
         $pr = Projects::where('id','=',$id)->delete();
         if($pr){
-            return response()->json(['success' => true]);
+            return response()->json(['success' => true,'msg'=>'删除成功']);
         }else{
-            return response()->json(['success' => false]);
+            return response()->json(['success' => false,'msg'=>'删除失败！']);
+        }
+    }
+    //批量删除
+    public function delall(Request $request){
+        $pr = \DB::delete('delete from projects where id in ('.$request->get('ids').')');
+        if($pr){
+            return response()->json(['success'=>true,'msg'=>'批量删除成功']);
+        }else{
+            return response()->json(['success'=>false,'msg'=>'批量删除失败！']);
         }
     }
 }

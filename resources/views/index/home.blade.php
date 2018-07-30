@@ -62,16 +62,16 @@
                 <div class="panel-header">服务器信息</div>
                 <div class="panel-body clearfix">
                     <div class="col-md-2">
-                        <p class="title">运行环境</p>
+                        <p class="title">操作系统</p>
                         <span class="info">{{$basic['system']}}</span>
                     </div>
                     <div class="col-md-2">
-                        <p class="title">服务器IP地址</p>
-                        <span class="info">{{$basic['ip']}}</span>
+                        <p class="title">服务器域名/端口</p>
+                        <span class="info">{{$basic['ym']}} [ {{$basic['port']}} ]</span>
                     </div>
                     <div class="col-md-2">
-                        <p class="title">服务器域名</p>
-                        <span class="info">{{$basic['ym']}}</span>
+                        <p class="title">laravel版本</p>
+                        <span class="info">{{$basic['edition']}}</span>
                     </div>
                     <div class="col-md-2">
                         <p class="title"> PHP版本</p>

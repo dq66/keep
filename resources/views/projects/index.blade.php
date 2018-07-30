@@ -5,9 +5,9 @@
 @section("content")
     <table data-toggle="table" id="table">
         <div id="toolbar" style="display: flex">
-            <button class="layui-btn layui-btn-small layui-btn-normal addBtn" data-url="add" data-id="5">
+            <button class="layui-btn layui-btn-small layui-btn-normal @can('Create Pr') addBtn @else qx @endcan" data-url="add" data-id="5">
                 <i class="layui-icon">&#xe654;</i></button>
-            <button class="layui-btn layui-btn-small layui-btn-danger delBtn" data-url="article-add.html">
+            <button class="layui-btn layui-btn-small layui-btn-danger delBtn" data-url="Projects">
                 <i class="layui-icon">&#xe640;</i></button>
             <select id="sel_exportoption" lay-filter="selecrex" class="form-control selecrex">
                 <option value="basic">导出当前页面数据</option>
@@ -138,7 +138,7 @@
                 formatter: function (value,row) {
                     var id = row.id;
                     var name = row.name;
-                    return `<button class="layui-btn layui-btn-mini layui-btn-normal edit-pr" data-id="${id}" data-url="edit"><i class="layui-icon"></i></button><button class="layui-btn layui-btn-mini layui-btn-danger del-btn" data-id="${id}" data-name="${name}" data-url="Projects"><i class="layui-icon"></i></button>`
+                    return `<button class="layui-btn layui-btn-mini layui-btn-normal" @can('Edit Pr') onclick="edit_pr('${id}','edit')" @else onclick="qx()" @endcan><i class="layui-icon"></i></button><button class="layui-btn layui-btn-mini layui-btn-danger" @can('Delete Pr') onclick="delone('${id}','${name}','Projects')" @else onclick="qx()" @endcan><i class="layui-icon"></i></button>`
                 }
             }
             ],responseHandler: function (res) {

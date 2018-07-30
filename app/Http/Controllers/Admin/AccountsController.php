@@ -41,7 +41,7 @@ class AccountsController extends Controller
     //添加账户
     public function create(AccountsRequest $request){
         //dd($request->all());
-        $accounts = Accounts::create($request->post());
+        $accounts = Accounts::create(array_merge($request->post(),['balance' => $request->input('money')]));
 
         return Prompt($accounts,'添加数据','Admin/Accounts');
 
@@ -64,11 +64,20 @@ class AccountsController extends Controller
     public function del($id){
         $accounts = Accounts::where('id','=',$id)->delete();
         if($accounts){
-            return response()->json(['success'=>true]);
+            return response()->json(['success'=>true,'msg'=>'删除成功']);
         }else{
-            return response()->json(['success'=>false]);
+            return response()->json(['success'=>false,'msg'=>'删除失败！']);
         }
 
+    }
+    //批量删除
+    public function delall(Request $request){
+        $acc = \DB::delete('delete from accounts where id in ('.$request->get('ids').')');
+        if($acc){
+            return response()->json(['success'=>true,'msg'=>'批量删除成功']);
+        }else{
+            return response()->json(['success'=>false,'msg'=>'批量删除失败！']);
+        }
     }
 
     //资金管理

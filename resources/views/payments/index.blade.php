@@ -172,7 +172,8 @@
                 width: 160, // 定义列的宽度，单位为像素px
                 formatter: function (value,row) {
                     var id = row.id;
-                    return `<button class="layui-btn layui-btn-mini layui-btn-normal" onclick="location.href='Payments/edit/${id}'"><i class="layui-icon"></i></button><button class="layui-btn layui-btn-mini layui-btn-danger del-btn" data-id="${id}" data-name="${id}" data-url="Payments"><i class="layui-icon"></i></button>`
+                    var name = "ID为 "+id+" 这条记录";
+                    return `<button class="layui-btn layui-btn-mini layui-btn-normal" @can('Edit Pa') onclick="location.href='Payments/edit/${id}'" @else onclick="qx()" @endcan><i class="layui-icon"></i></button><button class="layui-btn layui-btn-mini layui-btn-danger" @can('Delete Pa') onclick="delone('${id}','${name}','Payments')" @else onclick="qx()" @endcan><i class="layui-icon"></i></button>`
                 }
             }
             ],responseHandler: function (res) {

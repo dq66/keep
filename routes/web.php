@@ -67,13 +67,15 @@ Route::group(['namespace' => 'Admin','prefix' => 'Admin','middleware'  => 'Userc
     Route::group(['prefix' => 'Accounts'], function(){
         Route::get('/','AccountsController@index');
         Route::get('prefix_sel','AccountsController@sel');
-        //添加账户
+        //添加
         Route::post('create','AccountsController@create');
-        //修改账户
+        //修改
         Route::get('edit/{id}','AccountsController@edit');
         Route::post('edit','AccountsController@edit');
-        //删除类别
+        //删除
         Route::get('del/{id}','AccountsController@del');
+        //批量删除
+        Route::get('delall','AccountsController@delall');
         //资金管理
         Route::get('capital','AccountsController@capital');
         //收支流水详情
@@ -105,6 +107,8 @@ Route::group(['namespace' => 'Admin','prefix' => 'Admin','middleware'  => 'Userc
         Route::post('edit','TypesController@edit');
         //删除类别
         Route::get('del/{id}','TypesController@del');
+        //批量删除
+        Route::get('delall','TypesController@delAll');
     });
     //小类
     Route::group(['prefix' => 'Xtypes'],function (){
@@ -117,6 +121,8 @@ Route::group(['namespace' => 'Admin','prefix' => 'Admin','middleware'  => 'Userc
         Route::post('edit/','XtypesController@edit');
         //删除小类
         Route::get('del/{id}','XtypesController@del');
+        //批量删除
+        Route::get('delall','XtypesController@delall');
     });
     //客户
     Route::group(['prefix'=>'Customer'],function (){
@@ -129,6 +135,8 @@ Route::group(['namespace' => 'Admin','prefix' => 'Admin','middleware'  => 'Userc
         Route::post('edit','CustomerController@edit');
         //删除客户
         Route::get('del/{id}','CustomerController@del');
+        //批量删除
+        Route::get('delall','CustomerController@delall');
     });
     //员工
     Route::group(['prefix'=>'Staffs'],function (){
@@ -141,6 +149,8 @@ Route::group(['namespace' => 'Admin','prefix' => 'Admin','middleware'  => 'Userc
         Route::post('edit','StaffsController@edit');
         //删除员工
         Route::get('del/{id}','StaffsController@del');
+        //批量删除
+        Route::get('delall','StaffsController@delall');
     });
     //项目
     Route::group(['prefix' => 'Projects'], function (){
@@ -153,5 +163,51 @@ Route::group(['namespace' => 'Admin','prefix' => 'Admin','middleware'  => 'Userc
         Route::post('edit','ProjectsController@edit');
         //删除项目
         Route::get('del/{id}','ProjectsController@del');
+        //批量删除
+        Route::get('delall','ProjectsController@delall');
+    });
+    //用户管理
+    Route::group(['prefix' => 'Users'],function (){
+        Route::get('/','UsersController@index');
+        Route::get('users_sel','UsersController@sel');
+        //查询所有等级
+        Route::get('rol_sel','UsersController@rol');
+        //添加
+        Route::post('create','UsersController@create');
+        //修改
+        Route::get('edit/{id}','UsersController@edit');
+        Route::post('edit','UsersController@edit');
+        //删除
+        Route::get('del','UsersController@del');
+    });
+    //角色
+    Route::group(['prefix' => 'Permissions'],function (){
+        Route::get('/','PermissionController@index');
+        Route::get('permissions_sel','PermissionController@sel');
+        //添加
+        Route::post('create','PermissionController@create');
+        //修改
+        Route::get('edit/{id}','PermissionController@edit');
+        Route::post('edit','PermissionController@edit');
+        //删除
+        Route::get('del/{id}','PermissionController@del');
+        //批量删除
+        Route::get('delall','PermissionController@delall');
+    });
+    //用户组
+    Route::group(['prefix' => 'Role'],function (){
+        Route::get('/','RoleController@index');
+        Route::get('role_sel','RoleController@sel');
+        // 获取所有权限
+        Route::get('per','RoleController@per');
+        //添加
+        Route::post('create','RoleController@create');
+        //修改
+        Route::get('edit/{id}','RoleController@edit');
+        Route::post('edit','RoleController@edit');
+        //删除
+        Route::get('del/{id}','RoleController@del');
+        //批量删除
+        Route::get('delall','RoleController@delall');
     });
 });

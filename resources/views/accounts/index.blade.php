@@ -5,9 +5,9 @@
 @section("content")
     <table data-toggle="table" id="table">
         <div id="toolbar" style="display: flex">
-            <button class="layui-btn layui-btn-small layui-btn-normal addBtn" data-url="add" data-id="2">
+            <button class="layui-btn layui-btn-small layui-btn-normal @can('Create Ac') addBtn @else qx @endcan" data-url="add" data-id="2">
                 <i class="layui-icon">&#xe654;</i></button>
-            <button class="layui-btn layui-btn-small layui-btn-danger delBtn" data-url="article-add.html">
+            <button class="layui-btn layui-btn-small layui-btn-danger delBtn" data-url="Accounts">
                 <i class="layui-icon">&#xe640;</i></button>
             <select id="sel_exportoption" lay-filter="selecrex" class="form-control selecrex">
                 <option value="basic">导出当前页面数据</option>
@@ -38,7 +38,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">当前余额：</label>
                     <div class="layui-input-block">
-                        <input type="text" name="balance" required lay-verify="required" placeholder="请输入当前余额"
+                        <input type="text" name="money" required lay-verify="required" placeholder="请输入当前余额"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -194,7 +194,7 @@
                 formatter: function (value,row) {
                     var id = row.id;
                     var name = row.name;
-                    return `<button class="layui-btn layui-btn-mini layui-btn-normal  edit-ac" data-id="${id}" data-url="edit"><i class="layui-icon"></i></button><button class="layui-btn layui-btn-mini layui-btn-danger del-btn" data-id="${id}" data-name="${name}" data-url="Accounts"><i class="layui-icon"></i></button>`
+                    return `<button class="layui-btn layui-btn-mini layui-btn-normal" @can('Edit Ac') onclick="edit_ac('${id}','edit')" @else onclick="qx()" @endcan><i class="layui-icon"></i></button><button class="layui-btn layui-btn-mini layui-btn-danger" @can('Delete Ac') onclick="delone('${id}','${name}','Accounts')" @else onclick="qx()" @endcan><i class="layui-icon"></i></button>`
                 }
             }
             ],responseHandler: function (res) {

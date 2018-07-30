@@ -5,9 +5,9 @@
 @section("content")
     <table data-toggle="table" id="table">
         <div id="toolbar" style="display: flex">
-            <button class="layui-btn layui-btn-small layui-btn-normal addBtn" data-url="add" data-id="3">
+            <button class="layui-btn layui-btn-small layui-btn-normal @can('Create Cu') addBtn @else qx @endcan" data-url="add" data-id="3">
                 <i class="layui-icon">&#xe654;</i></button>
-            <button class="layui-btn layui-btn-small layui-btn-danger delBtn" data-url="article-add.html">
+            <button class="layui-btn layui-btn-small layui-btn-danger delBtn" data-url="Customer">
                 <i class="layui-icon">&#xe640;</i></button>
             <select id="sel_exportoption" lay-filter="selecrex" class="form-control selecrex">
                 <option value="basic">导出当前页面数据</option>
@@ -215,7 +215,7 @@
                 formatter: function (value,row) {
                     var id = row.id;
                     var name = row.name;
-                    return `<button class="layui-btn layui-btn-mini layui-btn-normal edit_cust" data-id="${id}" data-url="edit"><i class="layui-icon"></i></button><button class="layui-btn layui-btn-mini layui-btn-danger del-btn" data-id="${id}" data-url="Customer" data-name="${name}"><i class="layui-icon"></i></button>`
+                    return `<button class="layui-btn layui-btn-mini layui-btn-normal" @can('Edit Cu') onclick="edit_cust('${id}','edit')" @else onclick="qx()" @endcan data-url=""><i class="layui-icon"></i></button><button class="layui-btn layui-btn-mini layui-btn-danger" @can('Delete Cu') onclick="delone('${id}','${name}','Customer')" @else onclick="qx()" @endcan><i class="layui-icon"></i></button>`
                 }
             }
             ],responseHandler: function (res) {

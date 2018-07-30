@@ -62,7 +62,7 @@
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             },
             success:function (da) {
-                console.log(da);
+                //console.log(da);
                 // console.log(da['incomes']);
                 //每年每个月的收入\支出的总数
                 for ($i =0 ;$i<da['incomes'].length;$i++){

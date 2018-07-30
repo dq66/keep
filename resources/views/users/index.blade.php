@@ -5,10 +5,8 @@
 @section("content")
     <table data-toggle="table" id="table">
         <div id="toolbar" style="display: flex">
-            <button class="layui-btn layui-btn-small layui-btn-normal @can('Create Xl') addBtn @else qx @endcan" data-url="add" data-id="2">
+            <button class="layui-btn layui-btn-small layui-btn-normal addBtn" data-url="add" data-id="6">
                 <i class="layui-icon">&#xe654;</i></button>
-            <button class="layui-btn layui-btn-small layui-btn-danger delBtn" data-url="Types">
-                <i class="layui-icon">&#xe640;</i></button>
             <select id="sel_exportoption" lay-filter="selecrex" class="form-control selecrex">
                 <option value="basic">导出当前页面数据</option>
                 <option value="all">导出全部数据</option>
@@ -17,39 +15,51 @@
         </div>
     </table>
     <div style="display: none" class="add">
-        <form method="post" action="/Admin/Xtypes/create" class="layui-form column-content-detail">
+        <form method="post" action="/Admin/Users/create" class="layui-form column-content-detail">
             <div class="layui-tab-item layui-show">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">收支类型：</label>
+                    <label class="layui-form-label">登录名：</label>
                     <div class="layui-input-block">
-                        <select name="is_types" lay-filter="sz" class="layui-input sel">
-                            <option value="1">收入</option>
-                            <option value="2">支出</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">所属大类：</label>
-                    <div class="layui-input-block">
-                        <select name="parent" id="types_id" class="layui-input">
-                            <option value="0">请选择</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">小类名称：</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="name" required lay-verify="required" placeholder="请输入小类名称"
+                        <input type="text" name="name" required lay-verify="required" placeholder="请输入用户名"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">说明：</label>
+                    <label class="layui-form-label">真实名称：</label>
                     <div class="layui-input-block">
-                        <textarea name="desc" class="layui-textarea"></textarea>
+                        <input type="text" name="realname" required lay-verify="required" placeholder="请输入用户名"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">邮箱：</label>
+                    <div class="layui-input-block">
+                        <input type="email" name="email" required lay-verify="required" placeholder="请输入邮箱"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码：</label>
+                    <div class="layui-input-block">
+                        <input type="password" name="password" required lay-verify="required" placeholder="请输入密码"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">确认密码：</label>
+                    <div class="layui-input-block">
+                        <input type="password" name="pwd" required lay-verify="required" placeholder="请输入确认密码"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户级别：</label>
+                    <div class="layui-input-block jb">
+                        <input type="radio" name="roles[]" value="0" title="cs">
                     </div>
                 </div>
             </div>
+
             {{ csrf_field() }}
             <div class="layui-form-item" style="padding-left: 10px;">
                 <div class="layui-input-block">
@@ -60,24 +70,38 @@
         </form>
     </div>
     <div style="display: none" class="edit">
-        <form method="post" action="/Admin/Xtypes/edit" class="layui-form column-content-detail">
+        <form method="post" action="/Admin/Users/edit" class="layui-form column-content-detail">
             <div class="layui-tab-item layui-show">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">小类名称：</label>
+                    <label class="layui-form-label">登录名：</label>
                     <div class="layui-input-block">
-                        <input type="text" name="name" id="name" required lay-verify="required" placeholder="请输入小类名称"
-                               autocomplete="off" class="layui-input">
+                        <input type="text" name="name" required lay-verify="required" placeholder="请输入用户名"
+                               autocomplete="off" class="layui-input name">
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">说明：</label>
+                    <label class="layui-form-label">真实名称：</label>
                     <div class="layui-input-block">
-                        <textarea name="desc" id="desc" class="layui-textarea"></textarea>
+                        <input type="text" name="realname" required lay-verify="required" placeholder="请输入用户名"
+                               autocomplete="off" class="layui-input realname">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">邮箱：</label>
+                    <div class="layui-input-block">
+                        <input type="email" name="email" required lay-verify="required" placeholder="请输入邮箱"
+                               autocomplete="off" class="layui-input email">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户级别：</label>
+                    <div class="layui-input-block ckjb">
+                        <input type="radio" name="roles[]" value="0" title="cs">
                     </div>
                 </div>
             </div>
             {{ csrf_field() }}
-            <input type="hidden" name="id" id="xid">
+            <input type="hidden" name="id" id="id">
             <div class="layui-form-item" style="padding-left: 10px;">
                 <div class="layui-input-block">
                     <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">立即提交</button>
@@ -93,7 +117,7 @@
     <script>
         var $table = $('#table');
         $table.bootstrapTable({
-            url: 'Xtypes/xtypes_sel',              //请求后台的URL（*）
+            url: '/Admin/Users/users_sel',              //请求后台的URL（*）
             method: 'get',               //请求方式（*）
             toolbar: '#toolbar',         //工具按钮用哪个容器
             pagination: true,            //是否显示分页（*）
@@ -115,7 +139,7 @@
             exportTypes: ['excel', 'PDF', 'PNG'],
             exportOptions: {
                 ignoreColumn: [0,5],  //忽略某一列的索引
-                fileName: '小类管理',  //文件名称设置
+                fileName: '用户管理',  //文件名称设置
                 worksheetName: 'sheet1',  //表格工作区名称
                 excelstyles: ['background-color', 'color', 'font-size', 'font-weight'],
                 onMsoNumberFormat: $.DoOnMsoNumberFormat
@@ -132,31 +156,28 @@
                 sortable: true,//排序
                 visible:false
             },{
-                title: '类型',
-                field: 'is_types',
-                align: 'center',
-                valign: 'middle',
-                formatter: function (value,row) {
-                    var v = row.is_types;
-                    if (v == 1) {
-                        return "<span>收入</span>"
-                    } else {
-                        return "<span>支出</span>"
-                    }
-                }
-            },{
-                title: '所属大类',
-                field: 'parent',
-                align: 'center',
-                valign: 'middle',
-            },{
-                title: '小类名称',
+                title: '用户名',
                 field: 'name',
                 align: 'center',
                 valign: 'middle',
             },{
-                title: '说明',
-                field: 'desc',
+                title: '真实姓名',
+                field: 'realname',
+                align: 'center',
+                valign: 'middle',
+            },{
+                title: '邮箱',
+                field: 'email',
+                align: 'center',
+                valign: 'middle',
+            },{
+                title: '等级',
+                field: 'role',
+                align: 'center',
+                valign: 'middle',
+            },{
+                title: '最进登录IP',
+                field: 'lastlogin_ip',
                 align: 'center',
                 valign: 'middle',
             },{
@@ -173,7 +194,7 @@
                 formatter: function (value,row) {
                     var id = row.id;
                     var name = row.name;
-                    return `<button class="layui-btn layui-btn-mini layui-btn-normal" @can('Edit Xl') onclick="edit_xl('${id}','edit')" @else onclick="qx()" @endcan><i class="layui-icon"></i></button><button class="layui-btn layui-btn-mini layui-btn-danger" @can('Delete Xl') onclick="delone('${id}','${name}','Xtypes')" @else onclick="qx()" @endcan><i class="layui-icon"></i></button>`
+                    return `<button class="layui-btn layui-btn-mini layui-btn-normal" onclick="edit_user('${id}','edit')" ><i class="layui-icon"></i></button><button class="layui-btn layui-btn-mini layui-btn-danger" onclick="delone('${id}','${name}','Staffs')"><i class="layui-icon"></i></button>`
                 }
             }
             ],responseHandler: function (res) {
@@ -184,7 +205,6 @@
             },
         });
         $(function () {
-            typess(1);
             // 选择导出 all selected basic
             $('.selecrex').change(function () {
                 var exportoption = $(this).find('option:selected').val();
@@ -193,7 +213,26 @@
                     exportDataType: exportoption
                 });
             });
+            //添加显示级别
+            $('.addBtn').click(function () {
+                $.ajax({
+                    type:'get',
+                    url:'/Admin/Users/rol_sel',
+                    dataType:'json',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    },
+                    success:function (da) {
+                        //console.log(da);
+                        var html = '';
+                        for ($i=0;$i<da['data'].length;$i++){
+                            html += `<input type="radio" name="roles[]"  lay-skin="primary" value="${da['data'][$i].id}" title="${da['data'][$i].name}">`;
+                        }
+                        $(".jb").html(html);
+                        renderForm();//表单重新渲染
+                    }
+                });
+            });
         });
     </script>
 @endsection()
-

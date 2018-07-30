@@ -117,7 +117,6 @@ class IncomesController extends Controller
                         ->orderBy('created_at', $px)->paginate($rows, ['*'], 1, $page);
                     $count= Incomes::where($tj)->count();
                 }
-
             }
 
 
@@ -261,9 +260,9 @@ class IncomesController extends Controller
             $bal = $yinc->is_types == 1 ? $acc->balance - $yinc->money : $acc->balance + $yinc->money;
 
             Accounts::where('id', '=', $yinc->accounts_id)->update(['balance' => $bal]);
-            return response()->json(['success' => true]);
+            return response()->json(['success' => true,'msg'=>'删除成功']);
         } else {
-            return response()->json(['success' => false]);
+            return response()->json(['success' => false,'msg'=>'删除失败！']);
         }
     }
 

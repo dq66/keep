@@ -137,7 +137,7 @@
                 formatter: function (value,row) {
                     var id = row.id;
                     var name = row.name;
-                        return `<button class="layui-btn layui-btn-mini layui-btn-normal" onclick="exportszls('${id}')">收支流水详情</button><button class="layui-btn layui-btn-mini layui-btn-normal" onclick="yhzzzzls('${id}')">转账流水详情</button><button class="layui-btn layui-btn-mini layui-btn-normal tra_add" data-id="${id}" data-name="${name}" data-url="add">转账</button>`
+                        return `<button class="layui-btn layui-btn-mini layui-btn-normal" @can('Str Ac') onclick="exportszls('${id}')" @else onclick="qx()" @endcan>收支流水详情</button><button class="layui-btn layui-btn-mini layui-btn-normal" @can('Sel Tr') onclick="yhzzzzls('${id}')" @else onclick="qx()" @endcan>转账流水详情</button><button class="layui-btn layui-btn-mini layui-btn-normal" @can('Create Tr') onclick="tra_add('${id}','${name}','add')" @else onclick="qx()" @endcan>转账</button>`
 
                 }
             }

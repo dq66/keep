@@ -61,10 +61,10 @@ class XtypesController extends Controller
         if($request->isMethod('post')){
             $input = $request->except(['_token']);
             $xtype = Types::where('id','=',$request->id)->update($input);
-            // 修复树关联
-            //Types::find($request->id)->perfectTree();
-            // 清理冗余的关联信息
-            //Types::deleteRedundancies();
+            //修复树关联
+            Types::find($request->id)->perfectTree();
+            //清理冗余的关联信息
+            Types::deleteRedundancies();
 
             return Prompt($xtype,'编辑数据','Admin/Xtypes');
 
@@ -80,9 +80,18 @@ class XtypesController extends Controller
         // 清理冗余的关联信息
         Types::deleteRedundancies();
         if($xtype){
-            return response()->json(['success' => true]);
+            return response()->json(['success' => true,'msg'=>'删除成功']);
         }else{
-            return response()->json(['success' => false]);
+            return response()->json(['success' => false,'msg'=>'删除失败！']);
+        }
+    }
+    //批量删除
+    public function delall(Request $request){
+        $xtype = \DB::delete('delete from types where id in ('.$request->get('ids').')');
+        if($xtype){
+            return response()->json(['success'=>true,'msg'=>'批量删除成功']);
+        }else{
+            return response()->json(['success'=>false,'msg'=>'批量删除失败！']);
         }
     }
 }

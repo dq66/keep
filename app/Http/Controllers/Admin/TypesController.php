@@ -86,17 +86,59 @@ class TypesController extends Controller
     public function del($id)
     {
         $de = Types::where("parent", "=", $id)->count();
-        if($de > 0){
+        if($de > 0){//判断是否有下级
             return response()->json(['success' => false,'data' => 'err']);
         }else{
 
             $types = Types::where('id','=',$id)->delete();
             if($types){
                 // 清理冗余的关联信息
-                Metas::deleteRedundancies();
-                return response()->json(['success'=>true]);
+                Types::deleteRedundancies();
+                return response()->json(['success'=>true,'msg'=>'删除成功']);
             }else{
-                return response()->json(['success'=>false]);
+                return response()->json(['success'=>false,'msg'=>'删除失败！']);
+            }
+        }
+    }
+    //批量删除
+    public function delall(Request $request){
+        //dump($request->all());
+        $a = explode(',',$request->get('ids'));
+        if(count($a) > 1){
+            $da  = array();
+            foreach ($a as $i){
+                $xj = Types::where('parent','=',$i)->count();
+                if($xj>0){
+                    $da[] = $i;
+                }
+            }
+            if(count($da)){
+                return response()->json(['success' => false,'msg' => '请先删除子分类！']);
+            }else{
+               // $types = Types::where('id','in',$request->get('ids'))->delete();
+                $types = \DB::delete('delete from types where id in ('.$request->get('ids').')');
+                //dump($types);
+                if($types){
+                    // 清理冗余的关联信息
+                    Types::deleteRedundancies();
+                    return response()->json(['success'=>true,'msg'=>'批量删除成功']);
+                }else{
+                    return response()->json(['success'=>false,'msg'=>'批量删除失败！']);
+                }
+            }
+        }else{
+            $xj = Types::where('parent','=',$a[0])->count();
+            if($xj>0){
+                return response()->json(['success' => false,'msg' => '请先删除子分类！']);
+            }else{
+                $types = Types::where('id','=',$a[0])->delete();
+                if($types){
+                    // 清理冗余的关联信息
+                    Types::deleteRedundancies();
+                    return response()->json(['success'=>true,'msg'=>'批量删除成功']);
+                }else{
+                    return response()->json(['success'=>false,'msg'=>'批量删除失败！']);
+                }
             }
         }
     }
