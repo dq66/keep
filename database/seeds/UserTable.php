@@ -11,11 +11,15 @@ class UserTable extends Seeder
      */
     public function run()
     {
+        $now = date('Y-m-d H:i:s');
         DB::table('users')->insert([
             'name' => "DQ",
             'realname' =>"杜琴",
             'email' => "2365160465@qq.com",
             'password' => bcrypt('123456'),
+            'lastlogin_ip'=> null,
+            'created_at' => $now,
+            'updated_at' => $now
         ]);
     }
 }

@@ -165,6 +165,8 @@ Route::group(['namespace' => 'Admin','prefix' => 'Admin','middleware'  => 'Userc
         Route::get('del/{id}','ProjectsController@del');
         //批量删除
         Route::get('delall','ProjectsController@delall');
+        //导入
+        Route::post('import','ProjectsController@import');
     });
     //用户管理
     Route::group(['prefix' => 'Users'],function (){

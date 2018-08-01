@@ -9,8 +9,7 @@ use App\Http\Controllers\Controller;
 class ProjectsController extends Controller
 {
     public function index(){
-        $pr = Projects::paginate(5);
-        return view('projects.index',compact('pr'));
+        return view('projects.index');
     }
     public function sel(Request $request){
         $rows= $request->get('limit');
@@ -57,6 +56,17 @@ class ProjectsController extends Controller
             return response()->json(['success' => true, 'data'=>$pr]);
         }
     }
+
+    //导入
+    public function import(Request $request){
+        dump($request->all());
+        //文件名称
+        $file = $request->file('file');
+
+
+
+    }
+
     //删除项目
     public function del($id){
         $pr = Projects::where('id','=',$id)->delete();

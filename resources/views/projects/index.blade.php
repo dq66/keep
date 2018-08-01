@@ -1,6 +1,28 @@
 @extends("layouts.app")
 @section("css")
     @include("public.css")
+    <style>
+        .dral{
+            display:none;
+        }
+        .cs{
+            margin-left: 10px;
+            margin-top: -3px;
+        }
+        .file-btn{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            outline: none;
+            background-color: transparent;
+            filter:alpha(opacity=0);
+            -moz-opacity:0;
+            -khtml-opacity: 0;
+            opacity: 0;
+        }
+    </style>
 @endsection()
 @section("content")
     <table data-toggle="table" id="table">
@@ -9,6 +31,15 @@
                 <i class="layui-icon">&#xe654;</i></button>
             <button class="layui-btn layui-btn-small layui-btn-danger delBtn" data-url="Projects">
                 <i class="layui-icon">&#xe640;</i></button>
+            <div class="cs">
+                <form action="/Admin/Projects/import" method="post" enctype="multipart/form-data">
+                    {{ csrf_field() }}
+                    <div class="layui-btn layui-btn-small layui-btn-warm">
+                        导入<input type="file" name="file" class="file-btn" id="dr">
+                    </div>
+                    <button type="submit" class="layui-btn layui-btn-small layui-btn-warm dral">导入</button>
+                </form>
+            </div>
             <select id="sel_exportoption" lay-filter="selecrex" class="form-control selecrex">
                 <option value="basic">导出当前页面数据</option>
                 <option value="all">导出全部数据</option>
@@ -156,6 +187,10 @@
                 $('#table').bootstrapTable('refreshOptions', {
                     exportDataType: exportoption
                 });
+            });
+            //导入
+            $('#dr').change(function () {
+                $('.dral').click();
             });
         });
     </script>
