@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Model\Projects;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Excel;
 
 class ProjectsController extends Controller
 {
@@ -13,7 +14,7 @@ class ProjectsController extends Controller
     }
     public function sel(Request $request){
         $rows= $request->get('limit');
-        $page = $request->get('offset');
+        $page = $request->get('pageNumber');
         $px = $request->get('order');
         $name = $request->get('sort');
         $search = $request->get('search');
@@ -59,12 +60,28 @@ class ProjectsController extends Controller
 
     //导入
     public function import(Request $request){
-        dump($request->all());
-        //文件名称
-        $file = $request->file('file');
+        //dump($request->all());
+        if($request->file('file')){
 
+            $file = $_FILES;
+            $excel_file_path = $file['file']['tmp_name'];
+            $projects = '';
 
-
+            Excel::load($excel_file_path, function($reader) use( &$projects ){
+                $reader = $reader->getSheet(0);
+                $res = $reader->toArray();
+                foreach ($res as $key => $value){
+                    $data = array(
+                        'name' => $value[0],
+                        'desc' => $value[2]
+                    );
+                    if($key > 0){
+                        $projects = Projects::create($data);
+                    }
+                }
+            });
+            return Prompt($projects,'导入数据','Admin/Projects');
+        }
     }
 
     //删除项目

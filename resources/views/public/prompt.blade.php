@@ -11,6 +11,10 @@
 <script src="/admin/js/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
 <script src="/admin/js/libs/tableExport.js"></script>
 <script>
+    //导入
+    $('#dr').change(function () {
+        $('.dral').click();
+    });
     //权限提示
     function qx() {
         layer.msg("对不起！你没有改权限", {icon: "5"}, function () {});

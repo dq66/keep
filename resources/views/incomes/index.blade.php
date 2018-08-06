@@ -30,6 +30,15 @@
     <table data-toggle="table" id="table">
         <div id="toolbar" style="display: flex">
             <button class="layui-btn layui-btn-small layui-btn-normal gjsearch" data-toggle="modal" data-target="#myModal008">高级查询</button>
+            <div class="cs">
+                <form action="/Admin/Incomes/import" method="post" enctype="multipart/form-data">
+                    {{ csrf_field() }}
+                    <div class="layui-btn layui-btn-small layui-btn-warm">
+                        导入<input type="file" name="file" class="file-btn" id="dr">
+                    </div>
+                    <button type="submit" class="layui-btn layui-btn-small layui-btn-warm dral">导入</button>
+                </form>
+            </div>
             <select id="sel_exportoption" lay-filter="selecrex" class="selecrex">
                 <option value="basic">导出当前页面数据</option>
                 <option value="all">导出全部数据</option>

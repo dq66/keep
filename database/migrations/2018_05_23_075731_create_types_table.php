@@ -17,7 +17,7 @@ class CreateTypesTable extends Migration
             $table->increments('id');
             $table->integer("is_types")->comment('类型:1收入,2支出');
             $table->integer('parent')->default(0)->comment('小类');
-            $table->string("name")->unique()->comment("名称");
+            $table->string("name")->comment("名称");
             $table->text("desc")->nullable()->comment("说明");
             $table->timestamps();
             $table->softDeletes();

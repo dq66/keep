@@ -7,6 +7,7 @@ use App\Model\Accounts;
 use App\Model\Incomes;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Excel;
 
 class AccountsController extends Controller
 {
@@ -104,5 +105,35 @@ class AccountsController extends Controller
     public function stans($id){
         $inc = Accounts::where('id','!=',$id)->get();
         return response()->json(['data' => $inc]);
+    }
+    //导入
+    public function import(Request $request){
+        //dump($request->all());
+        if($request->file('file')){
+
+            $file = $_FILES;
+            $excel_file_path = $file['file']['tmp_name'];
+            $inc = '';
+
+            Excel::load($excel_file_path, function($reader) use( &$inc ){
+                $reader = $reader->getSheet(0);
+                $res = $reader->toArray();
+                foreach ($res as $key => $value){
+                    $type = $value[0] == "现金" ? 1:2;
+                    //dump($type);
+                    $data = array(
+                        'type' => $type,
+                        'name' => $value[1],
+                        'money' => $value[3],
+                        'balance' => $value[4],
+                        'desc' => $value[5]
+                    );
+                    if($key > 0){
+                        $inc = Accounts::create($data);
+                    }
+                }
+            });
+            return Prompt($inc,'导入数据','Admin/Accounts');
+        }
     }
 }

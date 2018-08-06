@@ -49,6 +49,8 @@ Route::group(['namespace' => 'Admin','prefix' => 'Admin','middleware'  => 'Userc
         Route::get('report','IncomesController@report');
         //年度每月收入\支出
         Route::get('yearscs/{year}','IncomesController@yearscs');
+        //导入
+        Route::post('import','IncomesController@import');
     });
     //应收\应付
     Route::group(['prefix' => 'Payments'],function (){
@@ -82,6 +84,8 @@ Route::group(['namespace' => 'Admin','prefix' => 'Admin','middleware'  => 'Userc
         Route::get('stream','AccountsController@stream');
         //转账（转入转账）
         Route::get('trans/{id}','AccountsController@stans');
+        //导入
+        Route::post('import','AccountsController@import');
     });
     //转账
     Route::group(['prefix' => 'Transfers'], function (){
@@ -109,6 +113,8 @@ Route::group(['namespace' => 'Admin','prefix' => 'Admin','middleware'  => 'Userc
         Route::get('del/{id}','TypesController@del');
         //批量删除
         Route::get('delall','TypesController@delAll');
+        //导入
+        Route::post('import','TypesController@import');
     });
     //小类
     Route::group(['prefix' => 'Xtypes'],function (){
@@ -137,6 +143,8 @@ Route::group(['namespace' => 'Admin','prefix' => 'Admin','middleware'  => 'Userc
         Route::get('del/{id}','CustomerController@del');
         //批量删除
         Route::get('delall','CustomerController@delall');
+        //导入
+        Route::post('import','CustomerController@import');
     });
     //员工
     Route::group(['prefix'=>'Staffs'],function (){
@@ -151,6 +159,8 @@ Route::group(['namespace' => 'Admin','prefix' => 'Admin','middleware'  => 'Userc
         Route::get('del/{id}','StaffsController@del');
         //批量删除
         Route::get('delall','StaffsController@delall');
+        //导入
+        Route::post('import','StaffsController@import');
     });
     //项目
     Route::group(['prefix' => 'Projects'], function (){

@@ -30,4 +30,23 @@
     .column-content-detail {
         padding: 20px;
     }
+    /*导入样式*/
+    .dral{
+        display:none;
+    }
+    .cs{
+        margin-left: 10px;
+        margin-top: -3px;
+    }
+    .file-btn{
+        position: absolute;
+        width: 3px !important;
+        top: 0;
+        outline: none;
+        background-color: transparent;
+        filter:alpha(opacity=0);
+        -moz-opacity:0;
+        -khtml-opacity: 0;
+        opacity: 0;
+    }
 </style>

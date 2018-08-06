@@ -1,28 +1,6 @@
 @extends("layouts.app")
 @section("css")
     @include("public.css")
-    <style>
-        .dral{
-            display:none;
-        }
-        .cs{
-            margin-left: 10px;
-            margin-top: -3px;
-        }
-        .file-btn{
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            outline: none;
-            background-color: transparent;
-            filter:alpha(opacity=0);
-            -moz-opacity:0;
-            -khtml-opacity: 0;
-            opacity: 0;
-        }
-    </style>
 @endsection()
 @section("content")
     <table data-toggle="table" id="table">
@@ -165,7 +143,6 @@
                 title: "操作",
                 align: 'center',
                 valign: 'middle',
-                width: 160, // 定义列的宽度，单位为像素px
                 formatter: function (value,row) {
                     var id = row.id;
                     var name = row.name;
@@ -187,10 +164,6 @@
                 $('#table').bootstrapTable('refreshOptions', {
                     exportDataType: exportoption
                 });
-            });
-            //导入
-            $('#dr').change(function () {
-                $('.dral').click();
             });
         });
     </script>

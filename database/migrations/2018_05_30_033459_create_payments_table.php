@@ -19,7 +19,7 @@ class CreatePaymentsTable extends Migration
             $table->integer('types_id')->unsigned()->comment('所属大类');
             $table->foreign('types_id')->references('id')->on('types');
             $table->integer('parent_id')->comment('所属小类');
-            $table->integer('money')->default(0)->comment('金额');
+            $table->double('money')->default(0)->comment('金额');
             $table->string('term')->comment('期限');
             $table->integer('customers_id')->unsigned()->comment('生意伙伴');
             $table->foreign('customers_id')->references('id')->on('customers');

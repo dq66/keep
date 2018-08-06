@@ -6,6 +6,7 @@ use App\Http\Requests\CustomerRequest;
 use App\Model\Customers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Excel;
 
 class CustomerController extends Controller
 {
@@ -78,6 +79,36 @@ class CustomerController extends Controller
             return response()->json(['success'=>true,'msg'=>'批量删除成功']);
         }else{
             return response()->json(['success'=>false,'msg'=>'批量删除失败！']);
+        }
+    }
+    //导入
+    public function import(Request $request){
+        //dump($request->all());
+        if($request->file('file')){
+
+            $file = $_FILES;
+            $excel_file_path = $file['file']['tmp_name'];
+            $cu = '';
+
+            Excel::load($excel_file_path, function($reader) use( &$cu ){
+                $reader = $reader->getSheet(0);
+                $res = $reader->toArray();
+                //dump($res);
+                foreach ($res as $key => $value){
+                    $data = array(
+                        'name' => $value[0],
+                        'telephone' => $value[1],
+                        'fax' => $value[2],
+                        'email' => $value[3],
+                        'address' => $value[4],
+                        'desc' => $value[5]
+                    );
+                    if($key > 0){
+                        $cu = Customers::create($data);
+                    }
+                }
+            });
+            return Prompt($cu,'导入数据','Admin/Customer');
         }
     }
 }

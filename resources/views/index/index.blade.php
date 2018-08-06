@@ -13,7 +13,7 @@
                 <a href="javascript:;"><i class="iconfont">&#xe607;</i>日常记账</a>
                 <dl class="layui-nav-child">
                     <dd>
-                        <a href="javascript:;" @can('Create In') data-url="/Admin/Incomes/add" @else class="qx" @endcan data-id='1' data-text="收入/支出记录">
+                        <a href="javascript:;" @can('Create In') data-url="/Admin/Incomes/add" @else onclick="qx()" @endcan data-id='1' data-text="收入/支出记录">
                             <span class="l-line"></span>收入/支出记录
                         </a>
                     </dd>
@@ -23,7 +23,7 @@
                         </a>
                     </dd>
                     <dd>
-                        <a href="javascript:;" @can('Create Pa') data-url="/Admin/Payments/add" @else class="qx" @endcan data-id='3' data-text="应收/应付记录">
+                        <a href="javascript:;" @can('Create Pa') data-url="/Admin/Payments/add" @else onclick="qx()" @endcan data-id='3' data-text="应收/应付记录">
                             <span class="l-line"></span>应收/应付记录
                         </a>
                     </dd>
@@ -38,7 +38,7 @@
                 <a href="javascript:;"><i class="iconfont">&#xe600;</i>资金管理</a>
                 <dl class="layui-nav-child">
                     <dd>
-                        <a href="javascript:;" @can('Select Ac') data-url="/Admin/Accounts/capital" @else class="qx" @endcan data-id='5' data-text="资金账户余额">
+                        <a href="javascript:;" @can('Select Ac') data-url="/Admin/Accounts/capital" @else onclick="qx()" @endcan data-id='5' data-text="资金账户余额">
                             <span class="l-line"></span>资金账户余额
                         </a>
                     </dd>
@@ -160,6 +160,10 @@
 <script type="text/javascript">
     var scope={
         link:'./welcome.html'
+    }
+    //权限提示
+    function qx() {
+        layer.msg("对不起！你没有改权限", {icon: "5"}, function () {});
     }
 </script>
 @endsection()

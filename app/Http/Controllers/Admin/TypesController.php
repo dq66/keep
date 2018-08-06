@@ -6,7 +6,7 @@ use App\Http\Requests\TypesRequest;
 use App\Model\Types;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use MongoDB\BSON\Type;
+use Excel;
 
 class TypesController extends Controller
 {
@@ -140,6 +140,34 @@ class TypesController extends Controller
                     return response()->json(['success'=>false,'msg'=>'批量删除失败！']);
                 }
             }
+        }
+    }
+
+    //导入
+    public function import(Request $request){
+        //dump($request->all());
+        if($request->file('file')){
+
+            $file = $_FILES;
+            $excel_file_path = $file['file']['tmp_name'];
+            $types = '';
+
+            Excel::load($excel_file_path, function($reader) use( &$types ){
+                $reader = $reader->getSheet(0);
+                $res = $reader->toArray();
+                foreach ($res as $key => $value){
+                    $type = $value[0] == "收入" ? 1:2;
+                    $data = array(
+                        'is_types' => $type,
+                        'name' => $value[1],
+                        'desc' => $value[2]
+                    );
+                    if($key > 0){
+                        $types = Types::create($data);
+                    }
+                }
+            });
+            return Prompt($types,'导入数据','Admin/Types');
         }
     }
 }

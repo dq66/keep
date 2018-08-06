@@ -9,6 +9,15 @@
                 <i class="layui-icon">&#xe654;</i></button>
             <button class="layui-btn layui-btn-small layui-btn-danger delBtn" data-url="Customer">
                 <i class="layui-icon">&#xe640;</i></button>
+            <div class="cs">
+                <form action="/Admin/Customer/import" method="post" enctype="multipart/form-data">
+                    {{ csrf_field() }}
+                    <div class="layui-btn layui-btn-small layui-btn-warm">
+                        导入<input type="file" name="file" class="file-btn" id="dr">
+                    </div>
+                    <button type="submit" class="layui-btn layui-btn-small layui-btn-warm dral">导入</button>
+                </form>
+            </div>
             <select id="sel_exportoption" lay-filter="selecrex" class="form-control selecrex">
                 <option value="basic">导出当前页面数据</option>
                 <option value="all">导出全部数据</option>
@@ -146,7 +155,7 @@
             showRefresh: true,          //是否显示刷新按钮
             pageList: [5, 10, 15, 20],  //如果设置了分页，设置可供选择的页面数据条数。设置为 All 或者 Unlimited，则显示所有记录。
             pageNumber: 1,              //初始化加载第一页，默认第一页
-            pageSize: 5,                //每页的记录行数（*）
+            pageSize: 10,                //每页的记录行数（*）
             sortable: true,             //是否启用排序
             sortOrder: "asc",           //排序方式
             showExport: true,           //显示导出按钮
@@ -211,7 +220,6 @@
                 title: "操作",
                 align: 'center',
                 valign: 'middle',
-                width: 160, // 定义列的宽度，单位为像素px
                 formatter: function (value,row) {
                     var id = row.id;
                     var name = row.name;

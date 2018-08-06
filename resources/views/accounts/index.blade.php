@@ -9,6 +9,15 @@
                 <i class="layui-icon">&#xe654;</i></button>
             <button class="layui-btn layui-btn-small layui-btn-danger delBtn" data-url="Accounts">
                 <i class="layui-icon">&#xe640;</i></button>
+            <div class="cs">
+                <form action="/Admin/Accounts/import" method="post" enctype="multipart/form-data">
+                    {{ csrf_field() }}
+                    <div class="layui-btn layui-btn-small layui-btn-warm">
+                        导入<input type="file" name="file" class="file-btn" id="dr">
+                    </div>
+                    <button type="submit" class="layui-btn layui-btn-small layui-btn-warm dral">导入</button>
+                </form>
+            </div>
             <select id="sel_exportoption" lay-filter="selecrex" class="form-control selecrex">
                 <option value="basic">导出当前页面数据</option>
                 <option value="all">导出全部数据</option>
@@ -190,7 +199,6 @@
                 title: "操作",
                 align: 'center',
                 valign: 'middle',
-                width: 160, // 定义列的宽度，单位为像素px
                 formatter: function (value,row) {
                     var id = row.id;
                     var name = row.name;

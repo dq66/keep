@@ -16,7 +16,7 @@ class CreateTransfersTable extends Migration
         Schema::create('transfers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer("is_types")->comment('类型:1转入,2转出');
-            $table->float('money')->default(0)->comment('金额');
+            $table->double('money')->default(0)->comment('金额');
             $table->integer('turn_out')->comment('转出账户');
             $table->integer('accounts_id')->unsigned()->comment('转入账户');
             $table->foreign('accounts_id')->references('id')->on('accounts');

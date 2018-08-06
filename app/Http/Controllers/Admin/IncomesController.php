@@ -9,6 +9,7 @@ use App\Model\Projects;
 use App\Model\Staffs;
 use App\Model\Types;
 use App\User;
+use Excel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -203,6 +204,55 @@ class IncomesController extends Controller
 
             //dump($inc);
             return view('incomes.edit', compact('inc', 'acc', 'cust', 'pro', 'sta'));
+        }
+    }
+
+    //导入
+    public function import(Request $request){
+        //dump($request->all());
+        if($request->file('file')){
+
+            $file = $_FILES;
+            $excel_file_path = $file['file']['tmp_name'];
+            $inc = '';
+
+            Excel::load($excel_file_path, function($reader) use( &$inc ){
+                $reader = $reader->getSheet(0);
+                $res = $reader->toArray();
+                //dump($res);
+                foreach ($res as $key => $value){
+                    if($key > 0){
+                    $is_types = $value[2] != "-" ? 1:2;
+                    $money = $value[2] != "-" ? $value[2]:$value[3];
+                    $lx = explode('->',$value[1]);
+                    $type = Types::where('parent','=',0)->where('name','=',trim($lx[0]))->first();
+                    $parent = Types::where('parent','!=',0)->where('name','=',trim($lx[1]))->first();
+                    $accounts = Accounts::where('name','=',$value[4])->first();
+                    $customers = Customers::where('name','=',$value[5])->first();
+                    $projects = Projects::where('name','=',$value[6])->first();
+                    $staffs = Staffs::where('name','=',$value[7])->first();
+                    $users = User::where('realname','=',$value[8])->first();
+
+                    $data = array(
+                        'is_types' => $is_types,
+                        'types_id' => $type['id'],
+                        'parent_id' => $parent['id'],
+                        'money' => $money,
+                        'accounts_id' => $accounts['id'],
+                        'customers_id' => $customers['id'],
+                        'projects_id' => $projects['id'],
+                        'staffs_id' => $staffs['id'],
+                        'users_id' => $users['id'],
+                        'desc' => $value[9],
+                        'created_at' => $value[0],
+                        'updated_at' => $value[0]
+                    );
+
+                        $inc = Incomes::create($data);
+                    }
+                }
+            });
+            return Prompt($inc,'导入数据','Admin/Incomes');
         }
     }
 

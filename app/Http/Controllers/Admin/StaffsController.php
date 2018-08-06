@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Model\Staffs;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Excel;
 
 class StaffsController extends Controller
 {
@@ -77,6 +78,35 @@ class StaffsController extends Controller
             return response()->json(['success'=>true,'msg'=>'批量删除成功']);
         }else{
             return response()->json(['success'=>false,'msg'=>'批量删除失败！']);
+        }
+    }
+    //导入
+    public function import(Request $request){
+        //dump($request->all());
+        if($request->file('file')){
+
+            $file = $_FILES;
+            $excel_file_path = $file['file']['tmp_name'];
+            $st = '';
+
+            Excel::load($excel_file_path, function($reader) use( &$st ){
+                $reader = $reader->getSheet(0);
+                $res = $reader->toArray();
+                //dump($res);
+                foreach ($res as $key => $value){
+                    $data = array(
+                        'name' => $value[0],
+                        'telephone' => $value[1],
+                        'birth' => $value[2],
+                        'department' => $value[3],
+                        'desc' => $value[4]
+                    );
+                    if($key > 0){
+                        $st = Staffs::create($data);
+                    }
+                }
+            });
+            return Prompt($st,'导入数据','Admin/Customer');
         }
     }
 }

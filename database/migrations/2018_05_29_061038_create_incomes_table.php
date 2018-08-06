@@ -19,7 +19,7 @@ class CreateIncomesTable extends Migration
             $table->integer('types_id')->unsigned()->comment('所属大类');
             $table->foreign('types_id')->references('id')->on('types');
             $table->integer('parent_id')->comment('所属小类');
-            $table->float('money')->default(0)->comment('金额');
+            $table->double('money')->default(0)->comment('金额');
             $table->integer('accounts_id')->unsigned()->comment('资产账户');
             $table->foreign('accounts_id')->references('id')->on('accounts');
             $table->integer('customers_id')->unsigned()->comment('生意伙伴');

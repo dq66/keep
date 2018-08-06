@@ -91,6 +91,7 @@
 @section("js")
     @include("public.prompt")
     <script>
+        typess(1);
         var $table = $('#table');
         $table.bootstrapTable({
             url: 'Xtypes/xtypes_sel',              //请求后台的URL（*）
@@ -165,11 +166,11 @@
                 align: 'center',
                 valign: 'middle',
                 sortable: true,//排序
+                visible:false
             }, {
                 title: "操作",
                 align: 'center',
                 valign: 'middle',
-                width: 160, // 定义列的宽度，单位为像素px
                 formatter: function (value,row) {
                     var id = row.id;
                     var name = row.name;
@@ -184,7 +185,6 @@
             },
         });
         $(function () {
-            typess(1);
             // 选择导出 all selected basic
             $('.selecrex').change(function () {
                 var exportoption = $(this).find('option:selected').val();
