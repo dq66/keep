@@ -12,7 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    //return view('welcome');
+    return  redirect('Admin');
 });
 //不需要验证
 Route::group(['prefix' => 'Admin', 'namespace' => 'Admin'], function () {
@@ -51,6 +52,8 @@ Route::group(['namespace' => 'Admin','prefix' => 'Admin','middleware'  => 'Userc
         Route::get('yearscs/{year}','IncomesController@yearscs');
         //导入
         Route::post('import','IncomesController@import');
+        //测试
+        Route::post('csdata','IncomesController@csdate');
     });
     //应收\应付
     Route::group(['prefix' => 'Payments'],function (){

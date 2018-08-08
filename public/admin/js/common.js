@@ -560,27 +560,6 @@ function edit_user(id,url) {
         }
     });
 }
-//小类添加（大类变动）
-function typess($lx) {
-    $('#types_id option').remove();
-    $.ajax({
-        type:'get',
-        url:'/Admin/Types/ajaxtyps/'+$lx,
-        dataType:'json',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-        },
-        success:function (da) {
-            //console.log(da);
-            var html = '';
-            for ($i=0;$i<da['data'].length;$i++){
-                html += `<option value="${da['data'][$i].id}">${da['data'][$i].name}</option>`;
-            }
-            $('#types_id').append(html);
-            renderForm();//表单重新渲染
-        }
-    });
-}
 
 //重新渲染表单
 function renderForm(){

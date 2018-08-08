@@ -131,7 +131,7 @@
             showRefresh: true,          //是否显示刷新按钮
             pageList: [5, 10, 15, 20],  //如果设置了分页，设置可供选择的页面数据条数。设置为 All 或者 Unlimited，则显示所有记录。
             pageNumber: 1,              //初始化加载第一页，默认第一页
-            pageSize: 5,                //每页的记录行数（*）
+            pageSize: 10,                //每页的记录行数（*）
             sortable: true,             //是否启用排序
             sortOrder: "asc",           //排序方式
             showExport: true,           //显示导出按钮
@@ -189,12 +189,18 @@
                 field: 'desc',
                 align: 'center',
                 valign: 'middle',
+
             },{
                 title: '创建日期',
                 field: 'created_at',
                 align: 'center',
                 valign: 'middle',
                 sortable: true,//排序
+                formatter:function (value,row) {
+                    var data = row.created_at;
+                    var da = data.split(" ");
+                    return da[0];
+                }
             }, {
                 title: "操作",
                 align: 'center',

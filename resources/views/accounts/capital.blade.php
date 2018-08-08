@@ -105,14 +105,11 @@
             showRefresh: true,          //是否显示刷新按钮
             pageList: [5, 10, 15, 20],  //如果设置了分页，设置可供选择的页面数据条数。设置为 All 或者 Unlimited，则显示所有记录。
             pageNumber: 1,              //初始化加载第一页，默认第一页
-            pageSize: 5,                //每页的记录行数（*）
+            pageSize: 10,                //每页的记录行数（*）
             sortable: true,             //是否启用排序
             sortOrder: "asc",           //排序方式
             sidePagination: "server", //服务端处理分页
             columns: [{
-                checkbox: true,
-                visible: true                  //是否显示复选框
-            },{
                 title:"ID",
                 field: 'id',
                 align: 'center',
@@ -162,7 +159,7 @@
             showRefresh: true,                  //是否显示刷新按钮
             pageList: [5, 10, 15, 20],
             pageNumber: 1,                       //初始化加载第一页，默认第一页
-            pageSize: 5, //每页的记录行数（*）
+            pageSize: 10, //每页的记录行数（*）
             showExport: true,//显示导出按钮
             exportDataType: "all", //basic', 'all', 'selected'.
             exportTypes: ['excel', 'PDF', 'PNG'],
@@ -223,12 +220,18 @@
                     title: '备注',
                     field: 'desc',
                     align: 'center',
+                    width: 160, // 定义列的宽度，单位为像素px
                 },{
                     title: '时间',
                     field: 'created_at',
                     align: 'center',
                     valign: 'middle',
                     sortable: true,
+                    formatter:function (value,row) {
+                        var data = row.created_at;
+                        var da = data.split(" ");
+                        return da[0];
+                    }
                 }
             ],
         });
@@ -246,7 +249,7 @@
             showRefresh: true,                  //是否显示刷新按钮
             pageList: [5, 10, 15, 20],
             pageNumber: 1,                       //初始化加载第一页，默认第一页
-            pageSize: 5, //每页的记录行数（*）
+            pageSize: 10, //每页的记录行数（*）
             showExport: true,//显示导出按钮
             exportDataType: "all", //basic', 'all', 'selected'.
             exportTypes: ['excel', 'PDF', 'PNG'],
@@ -312,12 +315,18 @@
                     title: '备注',
                     field: 'desc',
                     align: 'center',
+                    width: 160, // 定义列的宽度，单位为像素px
                 },{
                     title: '时间',
                     field: 'created_at',
                     align: 'center',
                     valign: 'middle',
                     sortable: true,
+                    formatter:function (value,row) {
+                        var data = row.created_at;
+                        var da = data.split(" ");
+                        return da[0];
+                    }
                 }
             ],
         });

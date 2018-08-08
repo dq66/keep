@@ -62,7 +62,7 @@
                 <div class="panel-header">服务器信息</div>
                 <div class="panel-body clearfix">
                     <div class="col-md-2">
-                        <p class="title">操作系统</p>
+                        <p class="title">运行环境</p>
                         <span class="info">{{$basic['system']}}</span>
                     </div>
                     <div class="col-md-2">
@@ -107,9 +107,9 @@
             'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
         },
         success:function (da) {
-             //console.log(da);
+            //console.log(da);
             for ($i =0; $i<da['rdata'].length; $i++){
-              //  console.log(da['rdata'][$i][0]['mon']);
+                //console.log(da['rdata'][$i][0]['mon']);
                 //收入
                 if(da['rdata'][$i][0]['mon'] == null){
                     rdatas.push(0);
@@ -134,137 +134,139 @@
                     lrs.push(a);
                 }
             }
-        }
-    });
-    // console.log(cdatas);
-    // console.log(rdatas);
-    layui.use(['layer','jquery'], function(){
-        var layer 	= layui.layer;
-        var $=layui.jquery;
-        //图表
-        var myChart;
-        require.config({
-            paths: {
-                echarts: '/admin/lib/echarts'
-            }
-        });
-        require(
-            [
-                'echarts',
-                'echarts/chart/bar',
-                'echarts/chart/line',
-                'echarts/chart/map'
-            ],
-            function (ec) {
-                //--- 折柱 ---
-                myChart = ec.init(document.getElementById('chart'));
-                myChart.setOption(
-                    {
-                        title: {
-                            text: "月收入/支出统计",
-                            textStyle: {
-                                color: "rgb(85, 85, 85)",
-                                fontSize: 18,
-                                fontStyle: "normal",
-                                fontWeight: "normal"
-                            }
-                        },
-                        tooltip: {
-                            trigger: "axis"
-                        },
-                        legend: {
-                            data: ["收入", "支出", "利润"],
-                            selectedMode: false,
-                        },
-                        toolbox: {
-                            show: true,
-                            feature: {
-                                dataView: {
-                                    show: false,
-                                    readOnly: true
-                                },
-                                magicType: {
-                                    show: false,
-                                    type: ["line", "bar", "stack", "tiled"]
-                                },
-                                restore: {
-                                    show: true
-                                },
-                                saveAsImage: {
-                                    show: true
-                                },
-                                mark: {
-                                    show: false
-                                }
-                            }
-                        },
-                        calculable: false,
-                        xAxis: [
+            //console.log(cdatas);
+            //console.log(rdatas);
+            //console.log(lrs);
+            layui.use(['layer','jquery'], function(){
+                var layer 	= layui.layer;
+                var $=layui.jquery;
+                //图表
+                var myChart;
+                require.config({
+                    paths: {
+                        echarts: '/admin/lib/echarts'
+                    }
+                });
+                require(
+                    [
+                        'echarts',
+                        'echarts/chart/bar',
+                        'echarts/chart/line',
+                        'echarts/chart/map'
+                    ],
+                    function (ec) {
+                        //--- 折柱 ---
+                        myChart = ec.init(document.getElementById('chart'));
+                        myChart.setOption(
                             {
-                                type: "category",
-                                boundaryGap: false,
-                                data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
-                            }
-                        ],
-                        yAxis: [
-                            {
-                                type: "value"
-                            }
-                        ],
-                        grid: {
-                            x2: 30,
-                            x: 50
-                        },
-                        series: [
-                            {
-                                name: "收入",
-                                type: "line",
-                                smooth: true,
-                                itemStyle: {
-                                    normal: {
-                                        areaStyle: {
-                                            type: "default"
-                                        }
+                                title: {
+                                    text: "月收入/支出统计",
+                                    textStyle: {
+                                        color: "rgb(85, 85, 85)",
+                                        fontSize: 18,
+                                        fontStyle: "normal",
+                                        fontWeight: "normal"
                                     }
                                 },
-                                data:rdatas
-                            },
-                            {
-                                name: "支出",
-                                type: "line",
-                                smooth: true,
-                                itemStyle: {
-                                    normal: {
-                                        areaStyle: {
-                                            type: "default"
-                                        }
-                                    }
+                                tooltip: {
+                                    trigger: "axis"
                                 },
-                                data:cdatas
-                            },
-                            {
-                                name: "利润",
-                                type: "line",
-                                smooth: true,
-                                itemStyle: {
-                                    normal: {
-                                        areaStyle: {
-                                            type: "default"
+                                legend: {
+                                    data: ["收入", "支出", "利润"],
+                                    selectedMode: false,
+                                },
+                                toolbox: {
+                                    show: true,
+                                    feature: {
+                                        dataView: {
+                                            show: false,
+                                            readOnly: true
                                         },
-                                        color: "rgb(110, 211, 199)"
+                                        magicType: {
+                                            show: false,
+                                            type: ["line", "bar", "stack", "tiled"]
+                                        },
+                                        restore: {
+                                            show: true
+                                        },
+                                        saveAsImage: {
+                                            show: true
+                                        },
+                                        mark: {
+                                            show: false
+                                        }
                                     }
                                 },
-                                // data: [1320, 1132, 601, 234, 120, 90, 20]
-                                data:lrs
+                                calculable: false,
+                                xAxis: [
+                                    {
+                                        type: "category",
+                                        boundaryGap: false,
+                                        data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+                                    }
+                                ],
+                                yAxis: [
+                                    {
+                                        type: "value"
+                                    }
+                                ],
+                                grid: {
+                                    x2: 30,
+                                    x: 80
+                                },
+                                series: [
+                                    {
+                                        name: "收入",
+                                        type: "line",
+                                        smooth: true,
+                                        itemStyle: {
+                                            normal: {
+                                                areaStyle: {
+                                                    type: "default"
+                                                }
+                                            }
+                                        },
+                                        data:rdatas
+                                    },
+                                    {
+                                        name: "支出",
+                                        type: "line",
+                                        smooth: true,
+                                        itemStyle: {
+                                            normal: {
+                                                areaStyle: {
+                                                    type: "default"
+                                                }
+                                            }
+                                        },
+                                        data:cdatas
+                                    },
+                                    {
+                                        name: "利润",
+                                        type: "line",
+                                        smooth: true,
+                                        itemStyle: {
+                                            normal: {
+                                                areaStyle: {
+                                                    type: "default"
+                                                },
+                                                color: "rgb(110, 211, 199)"
+                                            }
+                                        },
+                                        // data: [1320, 1132, 601, 234, 120, 90, 20]
+                                        data:lrs
+                                    }
+                                ]
                             }
-                        ]
+                        );
                     }
                 );
-            }
-        );
-        $(window).resize(function(){
-            myChart.resize();
-        })
+                $(window).resize(function(){
+                    myChart.resize();
+                })
+            });
+        }
     });
+
 </script>
 @endsection()

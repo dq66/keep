@@ -31,7 +31,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">所属大类：</label>
                     <div class="layui-input-block">
-                        <select name="parent" id="types_id" class="layui-input">
+                        <select name="parent" id="types_id" class="layui-input parent_id">
                             <option value="0">请选择</option>
                         </select>
                     </div>
@@ -108,7 +108,7 @@
             showRefresh: true,          //是否显示刷新按钮
             pageList: [5, 10, 15, 20],  //如果设置了分页，设置可供选择的页面数据条数。设置为 All 或者 Unlimited，则显示所有记录。
             pageNumber: 1,              //初始化加载第一页，默认第一页
-            pageSize: 5,                //每页的记录行数（*）
+            pageSize: 10,                //每页的记录行数（*）
             sortable: true,             //是否启用排序
             sortOrder: "asc",           //排序方式
             showExport: true,           //显示导出按钮
@@ -161,13 +161,6 @@
                 align: 'center',
                 valign: 'middle',
             },{
-                title: '创建日期',
-                field: 'created_at',
-                align: 'center',
-                valign: 'middle',
-                sortable: true,//排序
-                visible:false
-            }, {
                 title: "操作",
                 align: 'center',
                 valign: 'middle',
@@ -184,6 +177,28 @@
                 };
             },
         });
+
+        //小类添加（大类变动）
+        function typess($lx) {
+            //$('#types_id option').remove();
+            $.ajax({
+                type:'get',
+                url:'/Admin/Types/ajaxtyps/'+$lx,
+                dataType:'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                },
+                success:function (da) {
+                    //console.log(da);
+                    var html = '';
+                    for ($i=0;$i<da['data'].length;$i++){
+                        html += `<option value="${da['data'][$i].id}">${da['data'][$i].name}</option>`;
+                    }
+                    $('.parent_id').html(html);
+                    renderForm();//表单重新渲染
+                }
+            });
+        }
         $(function () {
             // 选择导出 all selected basic
             $('.selecrex').change(function () {

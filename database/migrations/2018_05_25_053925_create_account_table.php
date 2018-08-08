@@ -17,8 +17,8 @@ class CreateAccountTable extends Migration
             $table->increments('id');
             $table->integer('type')->comment('账户类型:1.现金，2.理财');
             $table->string('name')->unique()->comment('账户名称');
-            $table->double('money')->default(0)->comment('创建时金额');
-            $table->double('balance')->default(0)->comment('余额');
+            $table->float('money')->default(0)->comment('创建时金额');
+            $table->float('balance')->default(0)->comment('余额');
             $table->text("desc")->nullable()->comment("备注");
             $table->timestamps();
         });

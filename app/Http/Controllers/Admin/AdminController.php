@@ -43,7 +43,7 @@ class AdminController extends Controller
         $laravel = app();
         $mysql = \DB::select("select VERSION() my");
         $basic = array(
-            'system' => PHP_OS,//php_uname(),//当前服务器系统
+            'system' => $_SERVER["SERVER_SOFTWARE"],//运行环境
             'port' => $_SERVER['SERVER_PORT'],//端口
             'ym' => $_SERVER['SERVER_NAME'],//域名
             'edition' => $laravel::VERSION,//laravel版本

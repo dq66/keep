@@ -135,7 +135,7 @@ class IncomesController extends Controller
             $in->customers_id = $in->customers->name;
             $in->projects_id = $in->projects->name;
             $in->staffs_id  = $in->staffs->name;
-            $in->users_id = $in->users->name;
+            $in->users_id = $in->users->realname;
             foreach ($xtype as $xt){
                 if($in->parent_id == $xt->id){
                     $in->parent_id = $xt->name;
@@ -204,6 +204,73 @@ class IncomesController extends Controller
 
             //dump($inc);
             return view('incomes.edit', compact('inc', 'acc', 'cust', 'pro', 'sta'));
+        }
+    }
+
+    public function del($id)
+    {
+        $yinc = Incomes::find($id);
+        $inc = Incomes::where('id', '=', $id)->delete();
+        if ($inc) {
+            //首先判断是收入还是支出 收入：拿原来的金额减去现在的金额
+            //支出：拿原来加上现在的
+            $acc = Accounts::find($yinc->accounts_id);
+            $bal = $yinc->is_types == 1 ? $acc->balance - $yinc->money : $acc->balance + $yinc->money;
+
+            Accounts::where('id', '=', $yinc->accounts_id)->update(['balance' => $bal]);
+            return response()->json(['success' => true,'msg'=>'删除成功']);
+        } else {
+            return response()->json(['success' => false,'msg'=>'删除失败！']);
+        }
+    }
+
+    //测试
+    public function csdate(Request $request){
+        if($request->file('file')) {
+
+            $file = $_FILES;
+            $excel_file_path = $file['file']['tmp_name'];
+            $inc = '';
+
+            Excel::load($excel_file_path, function ($reader) use (&$inc) {
+                $reader = $reader->getSheet(0);
+                $res = $reader->toArray();
+                dump($res);
+                $psr = 0;
+                $pzc = 0;
+                $lsr = 0;
+                $lzc = 0;
+                $xsr = 0;
+                $xzc = 0;
+                $jsr = 0;
+                $jzc = 0;
+                foreach ($res as $key => $value) {
+                    if ($key > 0) {
+                        if($value[3] == "浦发银行") {
+                            $psr += $value[1] != "'-" ? $value[1]:0;
+                            $pzc += $value[2] != "'-" ? $value[2]:0;
+                        }else if ($value[3] == "农业银行"){
+                            $lsr += $value[1] != "'-" ? $value[1]:0;
+                            $lzc += $value[2] != "'-" ? $value[2]:0;
+                        }else if($value[3] == "现金"){
+                            $xsr += $value[1] != "'-" ? $value[1]:0;
+                            $xzc += $value[2] != "'-" ? $value[2]:0;
+                        }else{
+                            $jsr += $value[1] != "'-" ? $value[1]:0;
+                            $jzc += $value[2] != "'-" ? $value[2]:0;
+                        }
+                    }
+               }
+                dump('浦发银行收入'.round($psr,2));//保留2位小数
+                dump('浦发银行支出'.round($pzc,2));
+                dump('农业银行收入'.round($lsr,2));
+                dump('农业银行支出'.round($lzc,2));
+                dump('现金收入'.round($xsr,2));
+                dump('现金支出'.round($xzc,2));
+                dump('建行(私)收入'.round($jsr,2));
+                dump('建行(私)支出'.round($jzc,2));
+
+            });
         }
     }
 
@@ -281,40 +348,24 @@ class IncomesController extends Controller
                 if ($xzbal != $zqbal) {
                     $bal = $xzbal > $zqbal ? $acc->balance + ($xzbal - $zqbal) : $acc->balance - ($zqbal - $xzbal);
 
-                    Accounts::where('id', '=', $acc_id)->update(['balance' => $bal]);
+                    Accounts::where('id', '=', $acc_id)->update(['balance' => round($bal,2)]);
                 }
             } else {
                 if ($xzbal != $zqbal) {
                     $bal = $xzbal > $zqbal ? $acc->balance - ($xzbal - $zqbal) : $acc->balance + ($zqbal - $xzbal);
 
-                    Accounts::where('id', '=', $acc_id)->update(['balance' => $bal]);
+                    Accounts::where('id', '=', $acc_id)->update(['balance' => round($bal,2)]);
                 }
             }
         } else {
             //不相同 再判断现在的类型 1.总金额加上现在的 2.现在的金额加上之前的金额 再用总金额减去现在跟之前的金额
             $bal = $type == 1 ? $acc->balance + $xzbal : $acc->balance - ($xzbal + $zqbal);
 
-            Accounts::where('id', '=', $acc_id)->update(['balance' => $bal]);
+            Accounts::where('id', '=', $acc_id)->update(['balance' => round($bal,2)]);
         }
 
     }
 
-    public function del($id)
-    {
-        $yinc = Incomes::find($id);
-        $inc = Incomes::where('id', '=', $id)->delete();
-        if ($inc) {
-            //首先判断是收入还是支出 收入：拿原来的金额减去现在的金额
-            //支出：拿原来加上现在的
-            $acc = Accounts::find($yinc->accounts_id);
-            $bal = $yinc->is_types == 1 ? $acc->balance - $yinc->money : $acc->balance + $yinc->money;
-
-            Accounts::where('id', '=', $yinc->accounts_id)->update(['balance' => $bal]);
-            return response()->json(['success' => true,'msg'=>'删除成功']);
-        } else {
-            return response()->json(['success' => false,'msg'=>'删除失败！']);
-        }
-    }
 
     //报表
     public function report()
@@ -330,7 +381,7 @@ class IncomesController extends Controller
     {
         $ygsc=array();
         $ygzc=array();
-        $user = Incomes::all()->toArray();
+        $user = \DB::select("select * from incomes where year(created_at)='$year'");
         foreach (array_unique(array_column($user, "staffs_id")) as $v) {
             //所有的成员收入统计
             $s=Incomes::where("staffs_id", "=", $v)->where('is_types','=',1);
@@ -343,7 +394,6 @@ class IncomesController extends Controller
                 }
             }else{
                 $mon=$s->pluck("money")->sum();
-                ///$name=Staffs::find($v)->name;
                 if ($mon != 0){
                     $ygsc[]=['mon'=>$mon,'name'=>$name];
                 }
@@ -358,28 +408,11 @@ class IncomesController extends Controller
                 }
             }else{
                 $mon=$c->pluck("money")->sum();
-                //$name=Staffs::find($v)->name;
                 if ($mon != 0){
                     $ygzc[]=['mon'=>$mon,'name'=>$name];
                 }
             }
         }
-//        dump($ygsc);
-//        $syygs =array();
-//        collect(array_unique(array_column(Incomes::all()->toArray(), "staffs_id")))->map(function ($v) {
-//            $s = Incomes::where("staffs_id", "=", $v);
-//            if($s->count()>1){
-//                dump($s->pluck("money")->sum());
-//                dump(Staffs::find($s->first()->staffs_id)->name);
-//                $syygs[] = array(['name' => Staffs::find($s->first()->staffs_id)->name,'mon' =>$s->pluck("money")->sum()]);
-//            }else{
-//                dump($s->pluck("money")->sum());
-//                dump(Staffs::find($s->first()->staffs_id)->name);
-//                $syygs[] = array(['name' => Staffs::find($s->first()->staffs_id)->name,'mon' =>$s->pluck("money")->sum()]);
-//
-//            }
-//        });
-//        dump($syygs);
 
         //年度的总收入跟支出
         $yearsr = \DB::select("SELECT SUM(money) mon FROM incomes WHERE year(created_at)='$year' AND is_types=1");

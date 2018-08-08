@@ -210,13 +210,6 @@
                 align: 'center',
                 valign: 'middle',
             },{
-                title: '时间',
-                field: 'created_at',
-                align: 'center',
-                valign: 'middle',
-                sortable: true,//排序
-                visible:false
-            }, {
                 title: "操作",
                 align: 'center',
                 valign: 'middle',
